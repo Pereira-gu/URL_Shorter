@@ -55,4 +55,14 @@ public class UrlController {
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    @GetMapping("/api/urls/{shortCode}/analytics")
+    public ResponseEntity<com.shorter.api.dto.UrlAnalyticsSummaryDTO> getUrlAnalytics(@PathVariable String shortCode) {
+        return shortLinkService.getOriginalUrl(shortCode)
+                .map(shortLink -> {
+                    com.shorter.api.dto.UrlAnalyticsSummaryDTO summary = clickLogService.getLinkAnalytics(shortLink);
+                    return ResponseEntity.ok(summary);
+                })
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }

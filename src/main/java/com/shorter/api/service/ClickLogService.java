@@ -47,4 +47,12 @@ public class ClickLogService {
         }
         return "Desktop";
     }
+
+    public com.shorter.api.dto.UrlAnalyticsSummaryDTO getLinkAnalytics(ShortLink shortLink) {
+        long totalClicks = clickLogRepository.countByShortLinkId(shortLink.getId());
+        var browserStats = clickLogRepository.countClicksByBrowser(shortLink.getId());
+        var deviceStats = clickLogRepository.countClicksByDevice(shortLink.getId());
+
+        return new com.shorter.api.dto.UrlAnalyticsSummaryDTO(totalClicks, browserStats, deviceStats);
+    }
 }
